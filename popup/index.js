@@ -9,28 +9,44 @@ document.getElementById("saveKeyButon").addEventListener("click", function () {
     console.log(key);
 });
 
-function getCurrentTabUrl() {
-    //error handling if the browser does not support the tabs API
-    // this is mainly for testing and should not do anything in production as the extension has access to the brower API
-    if (typeof browser === "undefined" || !browser.tabs) {
-        var tabs = [{ url: "https://example.com" }];
-        return Promise.resolve(tabs[0].url);
-    }
-    return browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then((tabs) => {
-            return tabs[0].url;
-        })
-        .catch((error) => {
-            console.error("An error occurred: ", error);
-            var tabs = [{ url: "https://example.com" }];
-            return tabs[0].url;
-        });
-}
 //gets the current URL and displays it in the popup. Later this will be used to generate a short URL
-getCurrentTabUrl().then(
-    (url) => (document.getElementById("currentUrl").textContent = url)
-);
+const DEFAULT_URL = "https://example.com";
+
+function getDefaultUrl() {
+    let tabs = [{ url: DEFAULT_URL }];
+    return Promise.resolve(tabs[0].url);
+}
+
+async function getCurrentTabUrl() {
+    if (typeof browser === "undefined" || !browser.tabs) {
+        return getDefaultUrl();
+    }
+    try {
+        let tabs = await browser.tabs.query({
+            active: true,
+            currentWindow: true,
+        });
+        //check if the tab is valid and has http or https in the URL if not return the default URL
+        if (
+            tabs[0].url === undefined ||
+            tabs[0].url.startsWith("http" || "https") == false
+        ) {
+            return getDefaultUrl();
+        }
+        return tabs[0].url;
+    } catch (error) {
+        console.error("An error occurred: ", error);
+        return getDefaultUrl();
+    }
+}
+
+getCurrentTabUrl()
+    .then((currentUrl) => {
+        document.getElementById("currentUrl").textContent = ("URL to share: " + currentUrl);
+    })
+    .catch((error) => {
+        console.error("An error occurred: ", error);
+    });
 
 //gets the API key from local storage and displays it in the popup. This will not be in prod but is useful for testing
 //TODO: remove this before prod
