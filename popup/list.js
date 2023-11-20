@@ -25,8 +25,7 @@ async function listShortURLs(options) {
 // TODO: Move it to options menu
 var listOptions = {
     apiKey:
-        localStorage.getItem("apiKey") ||
-        "9f49d793-0444-4e70-97de-5c6c2d6271f4",
+        localStorage.getItem("apiKey"),
     apiEndpoint: "short.morge.news",
 };
 // This funcion gets all short URLs and displays them in the popup
