@@ -1,3 +1,8 @@
+document
+    .getElementById("closeShareButton")
+    .addEventListener("click", function () {
+        window.location = "index.html";
+    });
 // WIP: This file is not used yet. It will be used to make API calls to generate the short URLs.
 // TODO: Make it work
 // TODO: Way to manage options

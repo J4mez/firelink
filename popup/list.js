@@ -19,8 +19,7 @@ async function listShortURLs(options) {
         }
     );
 
-    let data = await response.text();
-    console.log(data);
+    let data = await response;
     return data;
 }
 // Define options for the URL listing function.
@@ -30,7 +29,6 @@ var listOptions = {
     apiKey: localStorage.getItem("apiKey"),
     apiEndpoint: "short.morge.news",
 };
-
 // This funcion gets all short URLs and displays them in the popup
 // This will be later used to manage already existing short URLs
 async function getListShortURLs() {
