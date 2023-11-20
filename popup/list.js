@@ -26,8 +26,7 @@ async function listShortURLs(options) {
 // This will be later be edited in the options menu
 // TODO: Move it to options menu
 var listOptions = {
-    apiKey:
-        localStorage.getItem("apiKey"),
+    apiKey: localStorage.getItem("apiKey"),
     apiEndpoint: "short.morge.news",
 };
 // This funcion gets all short URLs and displays them in the popup
@@ -47,7 +46,6 @@ async function getListShortURLs() {
             } else {
                 document.getElementById("urlListLoader").remove();
                 urlArray.forEach((urlElement) => {
-                    console.log(urlElement);
                     //create a new list element with the id "urlList" and add it to the list
                     var li = document.createElement("li");
                     li.setAttribute("id", "urlList");
