@@ -1,6 +1,8 @@
-document.getElementById("closeListButton").addEventListener("click", function() {
-    window.location = "index.html";
-});
+document
+    .getElementById("closeListButton")
+    .addEventListener("click", function () {
+        window.location = "index.html";
+    });
 // List all short URLs that the API key has access to (only the ones it created.)
 // This will be later used to manage the already existing short URLs
 async function listShortURLs(options) {
@@ -35,19 +37,24 @@ async function getListShortURLs() {
         const result = await listShortURLs(listOptions);
         parsedResult = await result.json();
         if (result.status != 200) {
-            document.getElementById("urlListLoader").textContent = parsedResult.detail;
+            document.getElementById("urlListLoader").textContent =
+                parsedResult.detail;
         } else {
             urlArray = parsedResult.shortUrls.data;
-            urlArray.forEach((urlElement) => {
-                console.log(urlElement);
-                //remove the urlList element
+            if (urlArray.length == 0) {
+                document.getElementById("urlListLoader").textContent =
+                    "No short URLs found";
+            } else {
                 document.getElementById("urlListLoader").remove();
-                //create a new list element with the id "urlList" and add it to the list
-                var li = document.createElement("li");
-                li.setAttribute("id", "urlList");
-                li.textContent = urlElement.shortUrl;
-                document.getElementById("urlListDiv").appendChild(li);
-            });
+                urlArray.forEach((urlElement) => {
+                    console.log(urlElement);
+                    //create a new list element with the id "urlList" and add it to the list
+                    var li = document.createElement("li");
+                    li.setAttribute("id", "urlList");
+                    li.textContent = urlElement.shortUrl;
+                    document.getElementById("urlListDiv").appendChild(li);
+                });
+            }
         }
     } catch (error) {
         console.log(error);
