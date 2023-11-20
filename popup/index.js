@@ -4,9 +4,8 @@
 document.getElementById("saveKeyButon").addEventListener("click", function () {
     const key = document.getElementById("apiKeyInput").value;
     localStorage.setItem("apiKey", key);
-    document.getElementById("apiKeyShow").textContent = key;
-    console.log("Key saved");
     console.log(key);
+    document.getElementById("apiKeyShow").textContent = key;
 });
 
 //gets the current URL and displays it in the popup. Later this will be used to generate a short URL
