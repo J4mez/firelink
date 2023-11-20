@@ -1,3 +1,6 @@
+document.getElementById("closeListButton").addEventListener("click", function() {
+    window.location = "index.html";
+});
 // List all short URLs that the API key has access to (only the ones it created.)
 // This will be later used to manage the already existing short URLs
 async function listShortURLs(options) {
@@ -14,24 +17,39 @@ async function listShortURLs(options) {
         }
     );
 
-    let data = await response.text();
-    console.log(data);
+    let data = await response;
     return data;
 }
 // Define options for the URL listing function.
 // This will be later be edited in the options menu
 // TODO: Move it to options menu
 var listOptions = {
-    apiKey: localStorage.getItem("apiKey"),
+    apiKey:
+        localStorage.getItem("apiKey") ||
+        "9f49d793-0444-4e70-97de-5c6c2d6271f4",
     apiEndpoint: "short.morge.news",
 };
-
 // This funcion gets all short URLs and displays them in the popup
 // This will be later used to manage already existing short URLs
 async function getListShortURLs() {
     try {
         const result = await listShortURLs(listOptions);
-        document.getElementById("urlList").textContent = result;
+        parsedResult = await result.json();
+        if (result.status != 200) {
+            document.getElementById("urlListLoader").textContent = parsedResult.detail;
+        } else {
+            urlArray = parsedResult.shortUrls.data;
+            urlArray.forEach((urlElement) => {
+                console.log(urlElement);
+                //remove the urlList element
+                document.getElementById("urlListLoader").remove();
+                //create a new list element with the id "urlList" and add it to the list
+                var li = document.createElement("li");
+                li.setAttribute("id", "urlList");
+                li.textContent = urlElement.shortUrl;
+                document.getElementById("urlListDiv").appendChild(li);
+            });
+        }
     } catch (error) {
         console.log(error);
         document.getElementById("urlList").textContent = error.message;
