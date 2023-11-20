@@ -7,9 +7,18 @@ document.getElementById("saveKeyButon").addEventListener("click", function () {
 });
 
 function getCurrentTabUrl() {
+    if (typeof browser === 'undefined' || !browser.tabs) {
+        var tabs = [{ url: "https://example.com" }];
+        return Promise.resolve(tabs[0].url);
+    }
     return browser.tabs
         .query({ active: true, currentWindow: true })
         .then((tabs) => {
+            return tabs[0].url;
+        })
+        .catch((error) => {
+            console.error("An error occurred: ", error);
+            var tabs = [{ url: "https://example.com" }];
             return tabs[0].url;
         });
 }
