@@ -1,23 +1,21 @@
 async function generateShortURL(options) {
-    longUrl = await getCurrentTabUrl();
-    console.log("generate short url for " + longUrl);
+    const longUrl = await getCurrentTabUrl();
 
-    let headersList = {
+    const headersList = {
         Accept: "application/json",
         "X-API-Key": options.apiKey,
         "Content-Type": "application/json",
     };
 
-    let bodyContent = JSON.stringify({
+    const bodyContent = JSON.stringify({
         longUrl: longUrl,
         tags: options.userTags,
         customSlug: options.customSlug,
         forwardQuery: options.forwardQuery,
         title: options.userTitle,
     });
-    console.log(bodyContent);
 
-    let response = await fetch(
+    const response = await fetch(
         `https://${options.apiEndpoint}/rest/v3/short-urls`,
         {
             method: "POST",
@@ -25,17 +23,14 @@ async function generateShortURL(options) {
             headers: headersList,
         }
     );
-
-    let data = response;
-    return data;
+    return response;
 }
 
 //gets the current URL and displays it in the popup. Later this will be used to generate a short URL
 const DEFAULT_URL = "https://example.com";
 
 function getDefaultUrl() {
-    let tabs = [{ url: DEFAULT_URL }];
-    return Promise.resolve(tabs[0].url);
+    return Promise.resolve(DEFAULT_URL);
 }
 
 async function getCurrentTabUrl() {
@@ -43,15 +38,12 @@ async function getCurrentTabUrl() {
         return getDefaultUrl();
     }
     try {
-        let tabs = await browser.tabs.query({
+        const tabs = await browser.tabs.query({
             active: true,
             currentWindow: true,
         });
         //check if the tab is valid and has http or https in the URL if not return the default URL
-        if (
-            tabs[0].url === undefined ||
-            tabs[0].url.startsWith("http" || "https") == false
-        ) {
+        if (tabs[0].url === undefined || !tabs[0].url.startsWith("http")) {
             return getDefaultUrl();
         }
         return tabs[0].url;
@@ -61,14 +53,10 @@ async function getCurrentTabUrl() {
     }
 }
 
-getCurrentTabUrl()
-    .then((currentUrl) => {
-        document.getElementById("currentUrl").textContent =
-            "URL to share: " + currentUrl;
-    })
-    .catch((error) => {
-        console.error("An error occurred: ", error);
-    });
+getCurrentTabUrl().then((currentUrl) => {
+    document.getElementById("currentUrl").textContent =
+        "URL to share: " + currentUrl;
+});
 
 function defineOptions() {
     // Load the values from localStorage if they exist
@@ -116,7 +104,7 @@ document
             p.setAttribute("id", "generatedUrl");
             p.textContent = parsedResult.shortUrl;
             document.getElementById("resultDiv").appendChild(p);
-            document.getElementById("currentUrl").textContent = "Shorted URL:"
+            document.getElementById("currentUrl").textContent = "Shorted URL:";
             document.getElementById("shareUrlButton").remove();
 
             // Create a new button element
@@ -125,13 +113,16 @@ document
 
             // Add an event listener to the button
             btn.addEventListener("click", function () {
-                var textToCopy = document.getElementById("generatedUrl").textContent;
+                var textToCopy =
+                    document.getElementById("generatedUrl").textContent;
                 navigator.clipboard.writeText(textToCopy).then(
                     function () {
                         console.log("Copying to clipboard was successful!");
                         var successMsg = document.createElement("p");
                         successMsg.textContent = "Text copied successfully!";
-                        document.getElementById("resultDiv").appendChild(successMsg);
+                        document
+                            .getElementById("resultDiv")
+                            .appendChild(successMsg);
                     },
                     function (err) {
                         console.error("Could not copy text: ", err);
