@@ -30,7 +30,8 @@ async function generateShortURL(options) {
 const DEFAULT_URL = "https://example.com";
 
 function getDefaultUrl() {
-    return Promise.resolve(DEFAULT_URL);
+    let tabs = [{ url: DEFAULT_URL }];
+    return Promise.resolve(tabs[0].url);
 }
 
 async function getCurrentTabUrl() {
@@ -38,7 +39,7 @@ async function getCurrentTabUrl() {
         return getDefaultUrl();
     }
     try {
-        const tabs = await browser.tabs.query({
+        let tabs = await browser.tabs.query({
             active: true,
             currentWindow: true,
         });
@@ -48,15 +49,18 @@ async function getCurrentTabUrl() {
         }
         return tabs[0].url;
     } catch (error) {
-        console.error("An error occurred: ", error);
-        return getDefaultUrl();
+        throw new Error("An error occurred: " + error);
     }
 }
 
-getCurrentTabUrl().then((currentUrl) => {
-    document.getElementById("currentUrl").textContent =
-        "URL to share: " + currentUrl;
-});
+getCurrentTabUrl()
+    .then((currentUrl) => {
+        document.getElementById("currentUrl").textContent =
+            "URL to share: " + currentUrl;
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 
 function defineOptions() {
     // Load the values from localStorage if they exist
@@ -72,7 +76,7 @@ function defineOptions() {
     userTitle =
         typeof userTitle !== "undefined" && userTitle !== "" ? userTitle : null;
 
-    if (typeof userTags === "undefined" || userTags == "") {
+    if (typeof userTags === "undefined" || userTags == null || userTags == "") {
         userTags = ["api"];
     } else {
         userTags.unshift("api");
@@ -93,10 +97,20 @@ function defineOptions() {
 document
     .getElementById("shareUrlButton")
     .addEventListener("click", async function () {
+        //adding loading text
+        var loadingP = document.createElement("p");
+        loadingP.setAttribute("id", "loadingP");
+        loadingP.textContent = "loading...";
+        document.getElementById("resultDiv").appendChild(loadingP);
+        //getting options from local storage
         options = defineOptions();
+        //generating the short URL
         generatorResult = await generateShortURL(options);
         console.log(generatorResult);
+
+        //error handling
         if (generatorResult.status != 200) {
+            document.getElementById("loadingP").remove();
             console.log("error");
             parsedResult = await generatorResult.json();
             //add the message to a new text element and add it to the result div
@@ -104,9 +118,12 @@ document
             p.setAttribute("id", "generatedUrl");
             p.textContent = "Error: " + parsedResult.detail;
             document.getElementById("resultDiv").appendChild(p);
+            //generating was successful
         } else {
+            //remove the loading text
+            document.getElementById("loadingP").remove();
             parsedResult = await generatorResult.json();
-            //add the message to a new text element and add it to the result div
+            //add the URL to a new text element and add it to the result div
             var p = document.createElement("p");
             p.setAttribute("id", "generatedUrl");
             p.textContent = parsedResult.shortUrl;
@@ -126,7 +143,7 @@ document
                     function () {
                         console.log("Copying to clipboard was successful!");
                         var successMsg = document.createElement("p");
-                        successMsg.textContent = "Text copied successfully!";
+                        successMsg.textContent = "Copied successfully!";
                         document
                             .getElementById("resultDiv")
                             .appendChild(successMsg);
