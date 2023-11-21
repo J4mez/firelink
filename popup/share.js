@@ -1,11 +1,3 @@
-document
-    .getElementById("closeShareButton")
-    .addEventListener("click", function () {
-        window.location = "index.html";
-    });
-// WIP: This file is not used yet. It will be used to make API calls to generate the short URLs.
-// TODO: Make it work
-// TODO: Way to manage options
 async function generateShortURL(options) {
     longUrl = await getCurrentTabUrl();
     console.log("generate short url for " + longUrl);
@@ -18,10 +10,12 @@ async function generateShortURL(options) {
 
     let bodyContent = JSON.stringify({
         longUrl: longUrl,
-        tags: options.tags,
-        //forwardQuery: options.forwardQuery,
-        //customSlug: options.customSlug,
+        tags: options.userTags,
+        customSlug: options.customSlug,
+        forwardQuery: options.forwardQuery,
+        title: options.userTitle,
     });
+    console.log(bodyContent);
 
     let response = await fetch(
         `https://${options.apiEndpoint}/rest/v3/short-urls`,
@@ -32,7 +26,7 @@ async function generateShortURL(options) {
         }
     );
 
-    let data = await response;
+    let data = response;
     return data;
 }
 
@@ -69,44 +63,83 @@ async function getCurrentTabUrl() {
 
 getCurrentTabUrl()
     .then((currentUrl) => {
-        document.getElementById("currentUrl").textContent = ("URL to share: " + currentUrl);
+        document.getElementById("currentUrl").textContent =
+            "URL to share: " + currentUrl;
     })
     .catch((error) => {
         console.error("An error occurred: ", error);
     });
 
-//define some options. Later this will be user defined in the options menu
-userTags = ["api", "test"];
-userSlug = undefined;
+function defineOptions() {
+    // Load the values from localStorage if they exist
+    var userSlug = localStorage.getItem("userSlug");
+    var userTitle = localStorage.getItem("userTitle");
+    var userTags = localStorage.getItem("userTags")
+        ? JSON.parse(localStorage.getItem("userTags"))
+        : null;
+
+    // Check if the values are undefined, if so, set them to null
+    userSlug = typeof userSlug !== "undefined" ? userSlug : null;
+    userTitle = typeof userTitle !== "undefined" ? userTitle : null;
+    userTags = typeof userTags !== "undefined" ? userTags : null;
+
+    var options = {
+        apiKey: localStorage.getItem("apiKey"),
+        apiEndpoint: localStorage.getItem("apiEndpoint") || "short.morge.news",
+        userTags: userTags, // Use the value from localStorage
+        customSlug: userSlug, // Use the value from localStorage
+        userTitle: userTitle, // Use the value from localStorage
+        forwardQuery: true,
+    };
+    return options;
+}
 
 //add a event listener to the button to generate the short URL and display it in the popup
 document
     .getElementById("shareUrlButton")
     .addEventListener("click", async function () {
-        var options = {
-            apiKey: localStorage.getItem("apiKey"),
-            apiEndpoint:
-                localStorage.getItem("apiEndpoint") || "short.morge.news",
-            tags: userTags || [],
-            customSlug: userSlug || undefined,
-            forwardQuery: true,
-        };
+        options = defineOptions();
         generatorResult = await generateShortURL(options);
         console.log(generatorResult);
         if (generatorResult.status != 200) {
+            console.log("error");
             parsedResult = await generatorResult.json();
             //add the message to a new text element and add it to the result div
             var p = document.createElement("p");
             p.setAttribute("id", "generatedUrl");
-            p.textContent = parsedResult.shortUrl;
-        }
-        else
-        {
+            p.textContent = "Error: " + parsedResult.detail;
+            document.getElementById("resultDiv").appendChild(p);
+        } else {
             parsedResult = await generatorResult.json();
             //add the message to a new text element and add it to the result div
             var p = document.createElement("p");
             p.setAttribute("id", "generatedUrl");
             p.textContent = parsedResult.shortUrl;
             document.getElementById("resultDiv").appendChild(p);
-        } 
+            document.getElementById("currentUrl").textContent = "Shorted URL:"
+            document.getElementById("shareUrlButton").remove();
+
+            // Create a new button element
+            var btn = document.createElement("button");
+            btn.textContent = "Copy to clipboard";
+
+            // Add an event listener to the button
+            btn.addEventListener("click", function () {
+                var textToCopy = document.getElementById("generatedUrl").textContent;
+                navigator.clipboard.writeText(textToCopy).then(
+                    function () {
+                        console.log("Copying to clipboard was successful!");
+                        var successMsg = document.createElement("p");
+                        successMsg.textContent = "Text copied successfully!";
+                        document.getElementById("resultDiv").appendChild(successMsg);
+                    },
+                    function (err) {
+                        console.error("Could not copy text: ", err);
+                    }
+                );
+            });
+
+            // Append the button to the result div
+            document.getElementById("resultDiv").appendChild(btn);
+        }
     });

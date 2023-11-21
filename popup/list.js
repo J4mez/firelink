@@ -1,8 +1,3 @@
-document
-    .getElementById("closeListButton")
-    .addEventListener("click", function () {
-        window.location = "index.html";
-    });
 // List all short URLs that the API key has access to (only the ones it created.)
 // This will be later used to manage the already existing short URLs
 async function listShortURLs(options) {
