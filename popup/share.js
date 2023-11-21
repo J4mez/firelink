@@ -66,10 +66,17 @@ function defineOptions() {
         ? JSON.parse(localStorage.getItem("userTags"))
         : null;
 
-    // Check if the values are undefined, if so, set them to null
-    userSlug = typeof userSlug !== "undefined" ? userSlug : null;
-    userTitle = typeof userTitle !== "undefined" ? userTitle : null;
-    userTags = typeof userTags !== "undefined" ? userTags : null;
+    // Check if the values are undefined or empty, if so, set them to null
+    userSlug =
+        typeof userSlug !== "undefined" && userSlug !== "" ? userSlug : null;
+    userTitle =
+        typeof userTitle !== "undefined" && userTitle !== "" ? userTitle : null;
+
+    if (typeof userTags === "undefined" || userTags == "") {
+        userTags = ["api"];
+    } else {
+        userTags.unshift("api");
+    }
 
     var options = {
         apiKey: localStorage.getItem("apiKey"),
