@@ -36,9 +36,6 @@ form.addEventListener('submit', function(event) {
     userTags = document.getElementById('tags').value.split(',');
     apiKey = document.getElementById("apiKeyInput").value;
 
-    // Add "api" to the beginning of the tags array
-    userTags.unshift('api');
-
     // Store the values in localStorage
     localStorage.setItem('userSlug', userSlug);
     localStorage.setItem('userTitle', userTitle);
