@@ -2,7 +2,7 @@
 const form = document.getElementById("optionsForm");
 
 // Variables to store the options
-let userSlug, userTitle, userTags, apiKey;
+let userSlug, userTitle, userTags, apiKey, domain;
 
 // Load the values from localStorage if they exist
 if (localStorage.getItem("userSlug")) {
@@ -25,6 +25,11 @@ if (localStorage.getItem("userTags")) {
     document.getElementById("tags").value = userTags.join(",");
 }
 
+if (localStorage.getItem("domain")) {
+    domain = localStorage.getItem("domain");
+    document.getElementById("domain").value = domain;
+}
+
 // Add an event listener for form submission
 form.addEventListener("submit", function (event) {
     // Prevent the form from being submitted
@@ -35,15 +40,17 @@ form.addEventListener("submit", function (event) {
     userTitle = document.getElementById("title").value;
     userTags = document.getElementById("tags").value.split(/[\s,]+/); // This regular expression splits the string by comma and/or space
     apiKey = document.getElementById("apiKeyInput").value;
+    domain = document.getElementById("domain").value;
 
     // Store the values in localStorage
     localStorage.setItem("userSlug", userSlug);
     localStorage.setItem("userTitle", userTitle);
     localStorage.setItem("userTags", JSON.stringify(userTags));
     localStorage.setItem("apiKey", apiKey);
+    localStorage.setItem("domain", domain);
 
     // Log the values (for testing purposes)
-    console.log(userSlug, userTitle, userTags, apiKey);
+    console.log(userSlug, userTitle, userTags, apiKey, domain);
 
     // Add a success message
     const successMessage = document.createElement("p");

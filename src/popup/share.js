@@ -13,6 +13,7 @@ async function generateShortURL(options) {
         customSlug: options.customSlug,
         forwardQuery: options.forwardQuery,
         title: options.userTitle,
+        domain: options.domain,
     });
 
     const response = await fetch(
@@ -66,6 +67,7 @@ function defineOptions() {
     // Load the values from localStorage if they exist
     var userSlug = localStorage.getItem("userSlug");
     var userTitle = localStorage.getItem("userTitle");
+    var domain = localStorage.getItem("userTitle");
     var userTags = localStorage.getItem("userTags")
         ? JSON.parse(localStorage.getItem("userTags"))
         : null;
@@ -76,11 +78,16 @@ function defineOptions() {
     userTitle =
         typeof userTitle !== "undefined" && userTitle !== "" ? userTitle : null;
 
+    // Check if the tags are undefined or empty, if so, set them to null
     if (typeof userTags === "undefined" || userTags == null || userTags == "") {
         userTags = ["api"];
     } else {
         userTags.unshift("api");
     }
+
+    // Check if the domain is undefined or empty, if so, set it to "short.morge.news"
+    domain =
+        typeof domain !== "undefined" && domain !== "" ? domain : "short.morge.news";
 
     var options = {
         apiKey: localStorage.getItem("apiKey"),
@@ -88,6 +95,7 @@ function defineOptions() {
         userTags: userTags, // Use the value from localStorage
         customSlug: userSlug, // Use the value from localStorage
         userTitle: userTitle, // Use the value from localStorage
+        domain: domain, // Use the value from localStorage
         forwardQuery: true,
     };
     return options;
