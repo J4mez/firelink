@@ -193,7 +193,7 @@ document
 
             // Create a new button element
             var btn = document.createElement("button");
-            btn.className = "btn btn-primary m-2";
+            btn.className = "btn btn-primary m-2 text-center";
             btn.textContent = "Copy to clipboard";
 
             // Add an event listener to the button
@@ -205,11 +205,13 @@ document
                     },
                     function (err) {
                         console.error("Could not copy text: ", err);
+                        showError("Could not copy text: " + err);
                     }
                 );
             });
 
-            // Append the button to the result div
-            document.getElementById("successNotification").appendChild(btn);
+            // add the button below the successMessage div
+            var element = document.getElementById("successMessage");
+            element.appendChild(btn);
         }
     });

@@ -32,16 +32,39 @@ try {
     console.error("manageButton not found");
 }
 
+try {
+    document
+        .getElementById("btn-close-success")
+        .addEventListener("click", () => {
+            hideSuccess();
+        });
+} catch (error) {
+    console.error("btn-close-success not found");
+}
+
+try {
+    document
+        .getElementById("btn-close-error")
+        .addEventListener("click", () => {
+            hideError();
+        });
+} catch (error) {
+    console.error("btn-close-error not found");
+}
+
 // To show the error notification with a message
 function showError(message) {
     const errorDiv = document.getElementById("errorNotification");
-    errorDiv.textContent = message;
+    const errorMessage = document.getElementById("errorMessage");
+    errorMessage.textContent = message;
     errorDiv.classList.remove("d-none");
 }
 
 // To hide the error notification
 function hideError() {
     const errorDiv = document.getElementById("errorNotification");
+    const errorMessage = document.getElementById("errorMessage");
+    errorMessage.textContent = "";
     errorDiv.classList.add("d-none");
 }
 
@@ -60,12 +83,15 @@ function hideLoading() {
 // To show the success notification with a message
 function showSuccess(message) {
     const successDiv = document.getElementById("successNotification");
-    successDiv.textContent = message;
+    const successMessage = document.getElementById("successMessage");
+    successMessage.textContent = message;
     successDiv.classList.remove("d-none");
 }
 
 // To hide the success notification
 function hideSuccess() {
     const successDiv = document.getElementById("successNotification");
+    const successMessage = document.getElementById("successMessage");
+    successMessage.textContent = "";
     successDiv.classList.add("d-none");
 }

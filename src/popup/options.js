@@ -52,13 +52,5 @@ form.addEventListener("submit", function (event) {
     // Log the values (for testing purposes)
     console.log(userSlug, userTitle, userTags, apiKey, domain);
 
-    // Add a success message
-    const successMessage = document.createElement("p");
-    successMessage.textContent = "Settings saved successfully!";
-    successMessage.style.color = "green";
-    document.body.appendChild(successMessage);
-});
-
-document.getElementById("closeButton").addEventListener("click", () => {
-    window.location.href = "index.html";
+    showSuccess("Settings saved successfully!");
 });

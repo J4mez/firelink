@@ -27,16 +27,15 @@ a:hover {
 }
 
 .btn-primary {
-    background-color: #4caf50;
-    border-color: #4caf50;
+    --bs-btn-bg: #4caf50;
+    --bs-btn-border-color: #4caf50;
+    --bs-btn-hover-bg: #3e8e41;
+    --bs-btn-hover-border-color: #3e8e41;
+    --bs-btn-active-bg: #347535;
+    --bs-btn-active-border-color: #347535;
 }
 
-.btn-primary:hover, input[type="submit"]:hover {
-    background-color: #45a049;
-    border-color: #45a049;
-}
-
-#optionsButton{
+#optionsButton {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -44,7 +43,7 @@ a:hover {
     padding: 5px 10px; /* Reduced padding */
 }
 
-#manageButton{
+#manageButton {
     position: absolute;
     top: 10px;
     left: 10px;

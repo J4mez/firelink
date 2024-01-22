@@ -9,6 +9,19 @@
     </head>
     <body class="container">
         <h1 class="text-center mb-3">Options</h1>
+        <div
+            id="successNotification"
+            class="alert alert-success d-none d-flex justify-content-between align-items-center"
+            role="alert"
+        >
+            <div id="successMessage"></div>
+            <button
+                type="button"
+                id="btn-close-success"
+                class="btn-close"
+                aria-label="Close"
+            ></button>
+        </div>
         <form id="optionsForm" class="mb-3">
             <div class="form-group">
                 <label for="apiKeyInput">API Key:</label>
@@ -53,6 +66,7 @@
             <button type="submit" class="btn btn-primary mt-3">Submit</button>
         </form>
         <button id="closeButton" class="btn btn-secondary mb-3">Close</button>
+        <script src="options.js"></script>
+        <script src="global.js"></script>
     </body>
-    <script src="options.js"></script>
 </html>
