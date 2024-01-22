@@ -1,21 +1,79 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-    <h1>Share this URL!</h1>
-    <p id="currentUrl">URL not found</p>
-    <p id="shortUrlPreview">URL Preview: </p>
-    <form id="sharingOptionsForm">
-        <label for="customSlugSharePage">Custom Slug:</label><br>
-        <input type="text" id="customSlugSharePage" name="customSlugSharePage"><br>
-    </form>
-    <button id="shareUrlButton">Share URL</button>
-    <div id="resultDiv">
-    </div>
-    <button id="closeButton">Close</button>
-</body>
-<script src="share.js"></script>
-<script src="global.js"></script>
+    <head>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h1 class="text-center">Share this URL!</h1>
+            <p id="currentUrl" class="mt-3">URL not found</p>
+            <p id="shortUrlPreview">URL Preview:</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form id="sharingOptionsForm">
+                        <div class="form-group">
+                            <label for="customSlugSharePage"
+                                >Custom Slug:</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="customSlugSharePage"
+                                name="customSlugSharePage"
+                            />
+                        </div>
+                        <button id="shareUrlButton">
+                            Share URL
+                            <!-- Add this span for the loading spinner -->
+                            <span
+                                id="loadingSpinner"
+                                class="spinner-border spinner-border-sm d-none"
+                                role="status"
+                                aria-hidden="true"
+                            ></span>
+                        </button>
+                    </form>
+                    <div
+                        id="successNotification"
+                        class="alert alert-success d-none"
+                        role="alert"
+                    >
+                        Success message goes here
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div
+                        id="errorNotification"
+                        class="alert alert-danger d-none"
+                        role="alert"
+                    >
+                        Error message goes here
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <button id="closeButton" class="btn btn-secondary mt-3">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script src="share.js"></script>
+        <script src="global.js"></script>
+    </body>
 </html>
