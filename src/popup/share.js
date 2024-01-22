@@ -193,6 +193,7 @@ document
 
             // Create a new button element
             var btn = document.createElement("button");
+            btn.className = "btn btn-primary m-2";
             btn.textContent = "Copy to clipboard";
 
             // Add an event listener to the button

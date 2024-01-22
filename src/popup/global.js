@@ -1,14 +1,35 @@
-document.getElementById("closeButton").addEventListener("click", () => {
-    window.location.href = "index.html";
-});
+try {
+    document.getElementById("closeButton").addEventListener("click", () => {
+        window.location.href = "index.html";
+    });
+} catch (error) {
+    console.error("closeButton not found");
+}
 
 try {
     document.getElementById("optionsButton").addEventListener("click", () => {
         window.location.href = "options.html";
     });
-    
 } catch (error) {
     console.error("optionsButton not found");
+}
+
+try {
+    document.getElementById("shareButton").addEventListener("click", () => {
+        window.location.href = "share.html";
+    });
+} catch (error) {
+    console.error("shareButton not found");
+}
+
+try {
+    document.getElementById("manageButton").addEventListener("click", () => {
+        //window.location.href = "manage.html";
+        //send to https://app.shlink.io/manage-servers
+        browser.tabs.create({ url: "https://app.shlink.io/manage-servers" });
+    });
+} catch (error) {
+    console.error("manageButton not found");
 }
 
 // To show the error notification with a message
@@ -26,25 +47,25 @@ function hideError() {
 
 // To show the loading spinner
 function showLoading() {
-    const spinner = document.getElementById('loadingSpinner');
-    spinner.classList.remove('d-none');
+    const spinner = document.getElementById("loadingSpinner");
+    spinner.classList.remove("d-none");
 }
 
 // To hide the loading spinner
 function hideLoading() {
-    const spinner = document.getElementById('loadingSpinner');
-    spinner.classList.add('d-none');
+    const spinner = document.getElementById("loadingSpinner");
+    spinner.classList.add("d-none");
 }
 
 // To show the success notification with a message
 function showSuccess(message) {
-    const successDiv = document.getElementById('successNotification');
+    const successDiv = document.getElementById("successNotification");
     successDiv.textContent = message;
-    successDiv.classList.remove('d-none');
+    successDiv.classList.remove("d-none");
 }
 
 // To hide the success notification
 function hideSuccess() {
-    const successDiv = document.getElementById('successNotification');
-    successDiv.classList.add('d-none');
+    const successDiv = document.getElementById("successNotification");
+    successDiv.classList.add("d-none");
 }
