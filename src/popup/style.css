@@ -26,37 +26,11 @@ a:hover {
     font-weight: bold;
 }
 
-button, input[type="submit"] {
-    background-color: #4caf50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 20px; /* Reduced padding */
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px; /* Reduced font size */
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition-duration: 0.4s;
-}
-
-button:hover, input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-#optionsButton{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 10px; /* Reduced font size */
-    padding: 5px 10px; /* Reduced padding */
-}
-
-#manageButton{
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 10px; /* Reduced font size */
-    padding: 5px 10px; /* Reduced padding */
+.btn-primary {
+    --bs-btn-bg: #4caf50;
+    --bs-btn-border-color: #4caf50;
+    --bs-btn-hover-bg: #3e8e41;
+    --bs-btn-hover-border-color: #3e8e41;
+    --bs-btn-active-bg: #347535;
+    --bs-btn-active-border-color: #347535;
 }

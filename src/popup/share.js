@@ -168,13 +168,7 @@ document
     .getElementById("shareUrlButton")
     .addEventListener("click", async function () {
         //adding loading text
-        // the manipulation of HTML is fucked
-        // please kill me
-        // I wont fix it until it breaks
-        var loadingP = document.createElement("p");
-        loadingP.setAttribute("id", "loadingP");
-        loadingP.textContent = "loading...";
-        document.getElementById("resultDiv").appendChild(loadingP);
+        showLoading();
         //getting options from local storage
         options = defineOptions();
         //generating the short URL
@@ -183,52 +177,41 @@ document
 
         //error handling
         if (generatorResult.status != 200) {
-            document.getElementById("loadingP").remove();
-            console.log("error");
+            hideLoading();
             parsedResult = await generatorResult.json();
-            //add the message to a new text element and add it to the result div
-            var p = document.createElement("p");
-            p.setAttribute("id", "errorP");
-            p.textContent = "Error: " + parsedResult.detail;
-            document.getElementById("resultDiv").appendChild(p);
-            //generating was successful
+            showError("Error: " + parsedResult.detail);
         } else {
-            //remove the loading text
-            document.getElementById("loadingP").remove();
-            document.getElementById("errorP").remove();
+            hideLoading();
+            hideError();
             parsedResult = await generatorResult.json();
             //add the URL to a new text element and add it to the result div
-            var p = document.createElement("p");
-            p.setAttribute("id", "generatedUrl");
-            p.textContent = parsedResult.shortUrl;
-            document.getElementById("resultDiv").appendChild(p);
-            document.getElementById("currentUrl").textContent = "Shorted URL:";
+            showSuccess("Success! Your short URL is: " + parsedResult.shortUrl);
+            document.getElementById("currentUrl").remove();
             document.getElementById("shareUrlButton").remove();
+            document.getElementById("shortUrlPreview").remove();
+            document.getElementById("sharingOptionsForm").remove();
 
             // Create a new button element
             var btn = document.createElement("button");
+            btn.className = "btn btn-primary m-2 text-center";
             btn.textContent = "Copy to clipboard";
 
             // Add an event listener to the button
             btn.addEventListener("click", function () {
-                var textToCopy =
-                    document.getElementById("generatedUrl").textContent;
+                var textToCopy = parsedResult.shortUrl;
                 navigator.clipboard.writeText(textToCopy).then(
                     function () {
-                        console.log("Copying to clipboard was successful!");
-                        var successMsg = document.createElement("p");
-                        successMsg.textContent = "Copied successfully!";
-                        document
-                            .getElementById("resultDiv")
-                            .appendChild(successMsg);
+                        showSuccess("Copied to clipboard!");
                     },
                     function (err) {
                         console.error("Could not copy text: ", err);
+                        showError("Could not copy text: " + err);
                     }
                 );
             });
 
-            // Append the button to the result div
-            document.getElementById("resultDiv").appendChild(btn);
+            // add the button below the successMessage div
+            var element = document.getElementById("successMessage");
+            element.appendChild(btn);
         }
     });

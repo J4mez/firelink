@@ -1,15 +1,3 @@
-document.getElementById("optionsButton").addEventListener("click", () => {
-    window.location.href = "options.html";
-});
-
-document.getElementById("shareButton").addEventListener("click", () => {
-    window.location.href = "share.html";
-});
-
-document.getElementById("manageButton").addEventListener("click", () => {
-    window.location.href = "manage.html";
-});
-
 //gets the current URL and displays it in the popup. Later this will be used to generate a short URL
 const DEFAULT_URL = "https://example.com";
 
