@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "FireLink",
-    "version": "1.4",
+    "version": "1.5",
 
     "description": "Creates sharable links with a click of a button",
 

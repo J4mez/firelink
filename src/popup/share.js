@@ -49,12 +49,14 @@ async function generateShortURL(options) {
 // if the slug is null, we generate a random slug but thats not saved in the local storage or the one used by the API
 function generatePreview() {
     var options = defineOptions();
-    previewSlug = options.customSlug;
+    var previewSlug = options.customSlug;
     // generate 5 random characters if no slug is set
     if (previewSlug == null) {
         previewSlug = Math.random().toString(36).substring(2, 7);
     }
-    var previewUrl = "https://" + options.apiEndpoint + "/" + previewSlug;
+    //replace the spaces in the slug with a dash
+    previewSlug = previewSlug.replace(/\s+/g, "-");
+    var previewUrl = "https://" + options.domain + "/" + previewSlug;
     document.getElementById("shortUrlPreview").textContent =
         "Preview: " + previewUrl;
 }
@@ -107,7 +109,7 @@ function defineOptions() {
     // Load the values from localStorage if they exist
     var userSlug = localStorage.getItem("userSlug");
     var userTitle = localStorage.getItem("userTitle");
-    var domain = localStorage.getItem("userTitle");
+    var domain = localStorage.getItem("domain");
     var userTags = localStorage.getItem("userTags")
         ? JSON.parse(localStorage.getItem("userTags"))
         : null;
