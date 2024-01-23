@@ -12,7 +12,7 @@ Due to security, there is no public [Shlink](https://shlink.io/) instance planed
 
 ![index](https://cdn.morge.news/firelink/index-pic.png)
 
-Options page (will be redesigned soon):
+Options page:
 
 ![options](https://cdn.morge.news/firelink/options-pic.png)
 
