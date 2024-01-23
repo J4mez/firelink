@@ -15,10 +15,10 @@ if (localStorage.getItem("apiKey")) {
     document.getElementById("apiKeyInput").value = apiKey;
 }
 
-if (localStorage.getItem("userTitle")) {
+/* if (localStorage.getItem("userTitle")) {
     userTitle = localStorage.getItem("userTitle");
     document.getElementById("title").value = userTitle;
-}
+} */
 
 if (localStorage.getItem("userTags")) {
     userTags = JSON.parse(localStorage.getItem("userTags"));
@@ -37,20 +37,20 @@ form.addEventListener("submit", function (event) {
 
     // Get the values from the form
     userSlug = document.getElementById("customSlug").value;
-    userTitle = document.getElementById("title").value;
+    //userTitle = document.getElementById("title").value;
     userTags = document.getElementById("tags").value.split(/[\s,]+/); // This regular expression splits the string by comma and/or space
     apiKey = document.getElementById("apiKeyInput").value;
     domain = document.getElementById("domain").value;
 
     // Store the values in localStorage
     localStorage.setItem("userSlug", userSlug);
-    localStorage.setItem("userTitle", userTitle);
+    //localStorage.setItem("userTitle", userTitle);
     localStorage.setItem("userTags", JSON.stringify(userTags));
     localStorage.setItem("apiKey", apiKey);
     localStorage.setItem("domain", domain);
 
     // Log the values (for testing purposes)
-    console.log(userSlug, userTitle, userTags, apiKey, domain);
+    console.log(userSlug, userTags, apiKey, domain);
 
     showSuccess("Settings saved successfully!");
 });

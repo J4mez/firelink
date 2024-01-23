@@ -30,7 +30,7 @@ async function generateShortURL(options) {
         tags: options.userTags,
         customSlug: options.customSlug,
         forwardQuery: options.forwardQuery,
-        title: options.userTitle,
+        //title: options.userTitle,
         domain: options.domain,
     });
 
@@ -108,7 +108,7 @@ inputSlugField.addEventListener("input", handleInput);
 function defineOptions() {
     // Load the values from localStorage if they exist
     var userSlug = localStorage.getItem("userSlug");
-    var userTitle = localStorage.getItem("userTitle");
+    //var userTitle = localStorage.getItem("userTitle");
     var domain = localStorage.getItem("domain");
     var userTags = localStorage.getItem("userTags")
         ? JSON.parse(localStorage.getItem("userTags"))
@@ -117,8 +117,8 @@ function defineOptions() {
     // Check if the values are undefined or empty, if so, set them to null
     userSlug =
         typeof userSlug !== "undefined" && userSlug !== "" ? userSlug : null;
-    userTitle =
-        typeof userTitle !== "undefined" && userTitle !== "" ? userTitle : null;
+    /* userTitle =
+        typeof userTitle !== "undefined" && userTitle !== "" ? userTitle : null; */
 
     // Check if the tags are undefined or empty, if so, set them to null
     if (typeof userTags === "undefined" || userTags == null || userTags == "") {
@@ -138,7 +138,7 @@ function defineOptions() {
         apiEndpoint: localStorage.getItem("apiEndpoint") || "short.morge.news", //late the API Endpoint will be configurable, atm it defaults to short.morge.news
         userTags: userTags, // Use the value from localStorage
         customSlug: userSlug, // Use the value from localStorage
-        userTitle: userTitle, // Use the value from localStorage
+        //userTitle: userTitle, // Use the value from localStorage
         domain: domain, // Use the value from localStorage
         forwardQuery: true,
     };
